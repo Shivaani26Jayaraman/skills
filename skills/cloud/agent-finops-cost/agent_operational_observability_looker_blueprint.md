@@ -50,12 +50,51 @@ graph TD
 ## 3. Implementation Playbook
 
 ### Phase 1: Programmatic Resource Labeling
-We use the Vertex AI Python SDK to identify all Reasoning Engines in the regional endpoints and apply billing labels:
-1. **Script Location:** `cloud/agent-finops-cost/scripts/discover_and_label_fleet.py`
-2. **Metadata Stamp:** Stamped tags:
-   * `agent-id` = `[agent-name-slug]`
-   * `business-unit` = `pso`
-   * `environment` = `staging`
+We use the Vertex AI Python SDK to identify all Reasoning Engines in regional endpoints and apply billing labels. 
+
+#### 1. Labeling Existing Reasoning Engines (Updates)
+To update labels on a running agent, we use the `ReasoningEngineServiceClient` with an update mask:
+```python
+from google.cloud import aiplatform_v1
+
+client = aiplatform_v1.ReasoningEngineServiceClient(client_options={"api_endpoint": "us-central1-aiplatform.googleapis.com"})
+
+reasoning_engine = aiplatform_v1.ReasoningEngine(
+    name="projects/olympus-475310/locations/us-central1/reasoningEngines/YOUR_ENGINE_ID",
+    labels={
+        "agent-id": "my-agent-slug",
+        "business-unit": "pso",
+        "environment": "staging"
+    }
+)
+update_mask = {"paths": ["labels"]}
+
+client.update_reasoning_engine(
+    reasoning_engine=reasoning_engine,
+    update_mask=update_mask
+)
+```
+
+#### 2. Labeling New Reasoning Engines (Creation)
+When deploying a new agent using the Vertex AI SDK, pass the `labels` dictionary directly in the `create` parameters:
+```python
+from google.cloud import aiplatform
+
+aiplatform.init(project="olympus-475310", location="us-central1")
+
+reasoning_engine = aiplatform.ReasoningEngine.create(
+    class_instance=MyAgent(),
+    display_name="My New Agent",
+    labels={
+        "agent-id": "my-new-agent",
+        "business-unit": "pso",
+        "environment": "staging"
+    }
+)
+```
+
+3. **Script Location:** [discover_and_label_fleet.py](file:///Users/shivaanij/skills/skills/cloud/agent-finops-cost/scripts/discover_and_label_fleet.py)
+
 
 ### Phase 2: Ingesting to BigQuery (Location: `us-east1`)
 To perform regional joins without BigQuery location conflicts:
