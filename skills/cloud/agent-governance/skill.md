@@ -7,31 +7,30 @@ metadata:
 
 # Agent Platform Governance & Cost Tracking
 
-This skill provides instructions for managing, applying, and auditing security guards, granular access controls, and FinOps labeling for agents deployed on the Agent Platform.
+This skill provides instructions for managing, applying, and auditing security guards, granular access controls, and automated FinOps labeling for agents deployed on the Agent Platform.
 
 ## Usage Guide
 
 To use this skill effectively:
-1. **No Workspace Pollution:** Do NOT create or write any of the reference files or scripts (e.g., cost_tracking.md, apply_policies.sh) to the user's workspace root. They are already packaged within this skill's directory at `skills/cloud/agent-governance/`.
+1. **No Workspace Pollution:** Do NOT create or write any of the reference files or scripts to the user's workspace root. They are already packaged within this skill's directory at `skills/cloud/agent-governance/`.
 2. **Reference Correct Paths with Labels:** Always point the user to the existing files inside the skill folder using descriptive, readable link text. Do not emit blank links. Use these exact paths:
    - [IAM Conditions Guide](skills/cloud/agent-governance/references/iam_conditions.md)
    - [Model Armor Configuration Guide](skills/cloud/agent-governance/references/model_armor_config.md)
    - [Cost Tracking & FinOps Reference](skills/cloud/agent-governance/references/cost_tracking.md)
    - [Policy Deployment Script](skills/cloud/agent-governance/scripts/apply_policies.sh)
-   - [Governance Verification Script](skills/cloud/agent-governance/scripts/verify_governance.py)
-3. **Generate Governance Artifacts:** Provide the `gcloud` commands and YAML/JSON configurations inline to help users configure access controls, content safety, and FinOps labels.
+   - [GitOps CI/CD Auto-Tagger Script](skills/cloud/agent-governance/scripts/finops_ci_tagger.py)
 
 ---
 
 ## Safety & Confirmation Tiers (CRITICAL)
 
-Before executing any commands or scripts on behalf of the user, you MUST adhere to the following safety tiers to prevent accidental lockouts, policy overrides, or service disruption:
+Before executing any commands or scripts on behalf of the user, you MUST adhere to the following safety tiers:
 
-* **Tier R: Read-only** (list, describe, get, query)
+* **Tier R: Read-only** (list, describe, get, query, scan)
   * No confirmation needed. Execute immediately to gather policy information.
-* **Tier M: Mutating & Reversible** (apply, update, import, set)
-  * Requires interactive confirmation with 'Yes'/'No' options before applying configurations. The confirmation prompt must contain the exact, literal command string with all required flags (e.g., `--update-labels`, `set-iam-policy`).
-  * **Same-turn restriction:** Do not execute the creation code in the same turn as presenting the confirmation prompt. Stop and wait for the user's approval.
+* **Tier M: Mutating & Reversible** (apply, update, import, set, patch)
+  * Requires interactive confirmation with 'Yes'/'No' options before applying configurations.
+  * **Same-turn restriction:** Do not execute code in the same turn as presenting the confirmation prompt. Stop and wait for the user's approval.
 * **Tier D: Destructive & Irreversible** (delete, disable)
   * Requires explicit typed confirmation (e.g., "I confirm"). Ask for confirmation IMMEDIATELY before any checks.
 
@@ -47,73 +46,25 @@ gcloud auth application-default login
 gcloud config set project $PROJECT_ID
 ```
 
-> 💡 **Tip:** Always dynamically substitute placeholders (such as `$PROJECT_ID`, `$LOCATION_ID`, and `$AGENT_ID`) with verified variables discovered during your workspace analysis.
-
 ---
 
-## 1. Access Authorization & Gateway Egress (Tier M)
+## 1. Automated GitOps & SDK Tagging (Tier M)
 
-Control what tools and endpoints an Agent Identity (SPIFFE) is authorized to call through the Agent Gateway.
+Automate cost-attribution by running our Git-aware metadata scanner during local development pre-commits or within active CI/CD loops.
 
-### Configure IAM Policy with CEL Conditions
-Define granular conditions to block or allow access to specific MCP Tools based on attributes like read-only tags. Detailed templates can be found in the [IAM Conditions Guide](skills/cloud/agent-governance/references/iam_conditions.md).
-
-* **Step 1:** Get existing policy:
-  ```bash
-  gcloud iap web get-iam-policy \
-      --resource-type=AgentRegistryResource \
-      --project=$PROJECT_ID --format=json > iap-policy.json
-  ```
-* **Step 2:** Merge/Apply updated policy with condition:
-  ```bash
-  gcloud iap web set-iam-policy iap-policy.json \
-      --resource-type=AgentRegistryResource \
-      --project=$PROJECT_ID
-  ```
-
-> ⚠️ **IMPORTANT:** This is a Tier M operation — ensure the user validates the condition logic before applying.
-
----
-
-## 2. Content Security with Model Armor (Tier M)
-
-Screen prompts/responses for prompt injection, PII, and harmful content.
-
-### Create and Bind Model Armor Template
-* **Step 1:** Define the template (e.g., `ma-template.yaml` using the formats in the [Model Armor Configuration Guide](skills/cloud/agent-governance/references/model_armor_config.md)).
-* **Step 2:** Import Policy:
-  ```bash
-  gcloud model-armor policies import my-policy \
-      --source=ma-template.yaml \
-      --location=$LOCATION_ID
-  ```
-* **Step 3:** Hook the safety filter directly to the gateway's pipeline:
-  ```bash
-  gcloud service-extensions authz-extensions import ma-extension \
-      --source=extension-config.yaml \
-      --location=$LOCATION_ID
-  ```
-
----
-
-## 3. Cost Tracking & FinOps Labeling (Tier M)
-
-Ensure strict financial accountability by tagging agents consistently.
-
-### Apply Governance Labels
-Apply the standardized Labeling Scheme (defined in the [Cost Tracking & FinOps Reference](skills/cloud/agent-governance/references/cost_tracking.md)) to the agent runtime.
+### Git Context Scanning & Patching
+Scan files, suggest context-inferred tags (built from folder layouts and branches), and recursively patch Terraform configs, Python code, and SQL Query comments:
 ```bash
-gcloud run services update $SERVICE_NAME \
-    --update-labels=agent-id=$AGENT_ID,business-unit=$BU,environment=$ENV \
-    --region=$LOCATION_ID
+# Analyze repository metadata and present the suggested label allocation card
+python3 skills/cloud/agent-governance/scripts/finops_ci_tagger.py --suggest
+
+# Execute code auto-patching (Tier M - Confirmation required)
+python3 skills/cloud/agent-governance/scripts/finops_ci_tagger.py --apply
 ```
 
-### Querying Billing via BigQuery (Tier R)
-To identify the top 5 most expensive agents this week, run the analytical query documented in the [Cost Tracking & FinOps Reference](skills/cloud/agent-governance/references/cost_tracking.md).
-
 ---
 
-## 4. Best Practices
+## 2. Best Practices
 
-* **Dry-Run Mode:** Always advise the user to test IAM and Model Armor configurations in Audit-only or Dry-Run Mode first before switching to ENFORCE.
+* **Audit Query Comments:** Ensure AlloyDB and Cloud Spanner queries include leading query tags so costs show up in Database Query Insights.
 * **Fail Open/Closed:** Ensure `failOpen: false` configuration is explicitly decided in Gateway Service Extensions.
