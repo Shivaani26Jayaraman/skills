@@ -24,4 +24,4 @@ jobs:
 
       - name: Run Compliance Scan
         run: |
-          python3 .agents/skills/agent-governance-resource-labeling/scripts/finops_tagger.py --check --strict .
+          python3 .agents/skills/agent-governance-resource-labeling/scripts/finops_tagger.py --check --strict skills/governance-sandbox/

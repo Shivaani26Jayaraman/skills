@@ -108,3 +108,8 @@ When a user asks "Show me how to track agent usage costs" or similar tracking qu
 2. Display a sample BigQuery SQL query to analyze spend.
 3. Do not write any files to the system or desktop, nor run terminal commands.
 4. Provide clickable markdown links pointing directly to [cost_tracking.md](file:///Users/shivaanij/skills/.agents/skills/agent-governance-resource-labeling/references/cost_tracking.md) and [cost_analysis.md](file:///Users/shivaanij/skills/.agents/skills/agent-governance-resource-labeling/references/cost_analysis.md).
+
+When a user asks to auto-tag resources or queries:
+1. Prompt the user iteratively (one-by-one) for the value of each required and optional compliance label.
+2. After gathering all values, present a summary of the tags and the planned command.
+3. Pause and ask: "Do you want me to apply these lables? [Yes/No]" before making any changes.
