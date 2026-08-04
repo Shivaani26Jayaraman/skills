@@ -1,86 +1,70 @@
 ---
-name: agent-governance
-description: Enforce Cloud FinOps cost-tracking compliance by auto-tagging GCP Terraform resources with standard metadata.
+name: agent-platform-governance
+metadata:
+  category: AiAndMachineLearning
+  description: Manages, applies, and audits Governance, Security, and Cost policies for the Agent Platform. Use when you need to configure Agent Gateways, Model Armor templates, IAM/IAP conditions, or cost-tracking labels.
 ---
 
-# Agent Governance: FinOps Cost-Tracking & Compliance
+# Agent Platform Governance & Cost Tracking
 
-This skill helps maintain organizational cost compliance for all agent infrastructure resources by enforcing standard metadata tags across GCP Terraform resource definitions.
+This skill provides instructions for managing, applying, and auditing security guards, granular access controls, and automated FinOps labeling for agents deployed on the Agent Platform.
 
-## Key Features
+## Usage Guide
 
-1. **Auto-Tagging**: Scan and update GCP resource blocks in `.tf` files with cost-tracking labels.
-2. **Governance Check**: Validate existing or proposed labels against the defined schema in [cost_tracking.md](file:///Users/shivaanij/skills/skills/cloud/agent-governance/references/cost_tracking.md).
-3. **Smart Labeling**: Leverage Vertex AI Gemini to analyze HCL blocks and suggest contextual metadata labels.
-4. **Validation Modes**: Supports Interactive, Dry-Run, and Strict validation compliance checks.
-
----
-
-## 📋 Labeling Standards
-
-The labeling standards are loaded dynamically from [cost_tracking.md](file:///Users/shivaanij/skills/skills/cloud/agent-governance/references/cost_tracking.md). The required metadata tags are:
-
-| Label Key | Valid Values | Description |
-| :--- | :--- | :--- |
-| **`agent-id`** | `[a-z0-9_-]{3,63}` | Unique identifier of the deploying agent. |
-| **`business-unit`** | `engineering`, `finance`, `consulting` | The department paying for resources. |
-| **`environment`** | `dev`, `staging`, `uat`, `prod` | Deployment lifecycle tier. |
-
-### Allowed Resource Types
-Only GCP resource types supporting a `labels` block are tagged (e.g., `google_compute_instance`, `google_storage_bucket`). An allowlist of supported types is defined in [cost_tracking.md](file:///Users/shivaanij/skills/skills/cloud/agent-governance/references/cost_tracking.md#L15).
+To use this skill effectively:
+1. **No Workspace Pollution:** Do NOT create or write any of the reference files or scripts to the user's workspace root. They are already packaged within this skill's directory at `skills/cloud/agent-governance/`.
+2. **Reference Correct Paths with Labels:** Always point the user to the existing files inside the skill folder using descriptive, readable link text. Do not emit blank links. Use these exact paths:
+   - [IAM Conditions Guide](skills/cloud/agent-governance/references/iam_conditions.md)
+   - [Model Armor Configuration Guide](skills/cloud/agent-governance/references/model_armor_config.md)
+   - [Cost Tracking & FinOps Reference](skills/cloud/agent-governance/references/cost_tracking.md)
+   - [Policy Deployment Script](skills/cloud/agent-governance/scripts/apply_policies.sh)
+   - [GitOps CI/CD Auto-Tagger Script](skills/cloud/agent-governance/scripts/finops_ci_tagger.py)
 
 ---
 
-## 🚀 Running the Tagger Script
+## Safety & Confirmation Tiers (CRITICAL)
 
-Execute the compliance tagger using `scripts/finops_tagger.py`.
+Before executing any commands or scripts on behalf of the user, you MUST adhere to the following safety tiers:
 
-### 1. Interactive Tagging (Recommended)
-Prompts for each required label with defaults, allowing you to reject, override, or ask Gemini for suggestions.
+* **Tier R: Read-only** (list, describe, get, query, scan)
+  * No confirmation needed. Execute immediately to gather policy information.
+* **Tier M: Mutating & Reversible** (apply, update, import, set, patch)
+  * Requires interactive confirmation with 'Yes'/'No' options before applying configurations.
+  * **Same-turn restriction:** Do not execute code in the same turn as presenting the confirmation prompt. Stop and wait for the user's approval.
+* **Tier D: Destructive & Irreversible** (delete, disable)
+  * Requires explicit typed confirmation (e.g., "I confirm"). Ask for confirmation IMMEDIATELY before any checks.
+
+---
+
+## Phase 0: Environment Setup
+
+CRITICAL: Before running any `gcloud` commands, advise the user to initialize their environment:
+
 ```bash
-python3 scripts/finops_tagger.py -i /path/to/terraform/dir
-```
-
-### 2. Quiet / Static Tagging (CI/CD)
-Tags files automatically using static values provided via arguments (useful for CI scripts).
-```bash
-python3 scripts/finops_tagger.py \
-  --agent-id "customer-support-bot" \
-  --business-unit "engineering" \
-  --environment "staging" \
-  /path/to/terraform/dir
-```
-
-### 3. Dry-Run (Preview Changes)
-Displays a unified diff of proposed HCL updates without writing to disk.
-```bash
-python3 scripts/finops_tagger.py --dry-run /path/to/terraform/dir
-```
-
-### 4. Strict Enforcement
-Errors out and halts (exit status 1) if existing resources fail standard choice checks or regex validation.
-```bash
-python3 scripts/finops_tagger.py --strict /path/to/terraform/dir
-```
-
-### 5. Force Re-Tagging
-Re-evaluate and update labels even if resources already carry valid compliant tags.
-```bash
-python3 scripts/finops_tagger.py --force /path/to/terraform/dir
+gcloud auth login
+gcloud auth application-default login
+gcloud config set project $PROJECT_ID
 ```
 
 ---
 
-## 🛠️ Gemini Integration Setup
+## 1. Automated GitOps & SDK Tagging (Tier M)
 
-To enable Gemini-suggested label recommendations:
-1. Ensure the Google Cloud AI Platform package is installed:
-   ```bash
-   pip install google-cloud-aiplatform
-   ```
-2. Define the project and location environment variables:
-   ```bash
-   export PROJECT_ID="your-gcp-project-id"
-   export LOCATION_ID="us-central1"
-   ```
-If environment variables are not set, the tagger will print a warning and fallback to standard static defaults.
+Automate cost-attribution by running our Git-aware metadata scanner during local development pre-commits or within active CI/CD loops.
+
+### Git Context Scanning & Patching
+Scan files, suggest context-inferred tags (built from folder layouts and branches), and recursively patch Terraform configs, Python code, and SQL Query comments:
+```bash
+# Analyze repository metadata and present the suggested label allocation card
+python3 skills/cloud/agent-governance/scripts/finops_ci_tagger.py --suggest
+
+# Execute code auto-patching (Tier M - Confirmation required)
+python3 skills/cloud/agent-governance/scripts/finops_ci_tagger.py --apply
+```
+
+---
+
+## 2. Best Practices
+
+* **Audit Query Comments:** Ensure AlloyDB and Cloud Spanner queries include leading query tags so costs show up in Database Query Insights.
+* **Fail Open/Closed:** Ensure `failOpen: false` configuration is explicitly decided in Gateway Service Extensions.
