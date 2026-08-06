@@ -24,37 +24,20 @@ All projects and workloads associated with Agent deployments must maintain these
 finops_tagger.py only injects a labels block into resource types listed here — GCP resources not in this list either don't support labels or use a different mechanism (e.g. tags), and tagging them would produce invalid Terraform. Add a line to extend the list; do not remove the heading format.
 
 - google_compute_instance
-- google_compute_instance_template
-- google_compute_region_instance_template
-- google_compute_disk
-- google_compute_region_disk
-- google_compute_image
-- google_compute_snapshot
-- google_compute_address
-- google_compute_global_address
-- google_compute_forwarding_rule
-- google_compute_global_forwarding_rule
 - google_container_cluster
-- google_container_node_pool
 - google_sql_database_instance
 - google_storage_bucket
 - google_bigquery_dataset
-- google_bigquery_table
 - google_pubsub_topic
-- google_pubsub_subscription
 - google_cloudfunctions_function
 - google_cloudfunctions2_function
 - google_cloud_run_service
 - google_cloud_run_v2_service
-- google_cloud_run_v2_job
-- google_dataflow_job
-- google_dataproc_cluster
-- google_composer_environment
 - google_redis_instance
-- google_filestore_instance
 - google_spanner_instance
 - google_artifact_registry_repository
 - google_vertex_ai_endpoint
 - google_notebooks_instance
 - google_workflows_workflow
 - google_secret_manager_secret
+
