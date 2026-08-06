@@ -1,0 +1,524 @@
+{
+  "displayName": "{{ dashboard_display_name }}",
+  "dashboardFilters": [],
+  "description": "",
+  "labels": {},
+  "mosaicLayout": {
+    "columns": 48,
+    "tiles": [
+      {
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Vertex AI Reasoning Engine - Container CPU Allocation [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/reasoning_engine/cpu/allocation_time\" resource.type=\"aiplatform.googleapis.com/ReasoningEngine\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Vertex AI Reasoning Engine - Container Memory Allocation [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/reasoning_engine/memory/allocation_time\" resource.type=\"aiplatform.googleapis.com/ReasoningEngine\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 16,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Vertex AI Reasoning Engine - Request Count [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/reasoning_engine/request_count\" resource.type=\"aiplatform.googleapis.com/ReasoningEngine\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 16,
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Vertex AI Reasoning Engine - Request Latency [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "HEATMAP",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_DELTA"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/reasoning_engine/request_latencies\" resource.type=\"aiplatform.googleapis.com/ReasoningEngine\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 32,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "logging/user/{{ error_log_metric_name }} [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"logging.googleapis.com/user/{{ error_log_metric_name }}\" resource.type=\"aiplatform.googleapis.com/ReasoningEngine\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 32,
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Error logs",
+          "id": "",
+          "logsPanel": {
+            "filter": "resource.type=\"aiplatform.googleapis.com/ReasoningEngine\"\r\nresource.labels.reasoning_engine_id=\"{{ reasoning_engine_id }}\"\r\n(\r\n  severity>=ERROR OR\r\n  logName =~ \"aiplatform.googleapis.com/reasoning_engine_stderr\" OR\r\n  textPayload =~ \"(?i)(exception|traceback|failed|timeout|deadline_exceeded|overloaded|429|503|error|BaseApiClient)\" OR\r\n  jsonPayload.message =~ \"(?i)(exception|traceback|failed|timeout|deadline_exceeded|overloaded|429|503|error|BaseApiClient)\"\r\n)",
+            "resourceNames": [
+              "projects/{{ project_id }}/locations/global/logScopes/_Default"
+            ]
+          }
+        }
+      },
+      {
+        "yPos": 48,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Model invocation count for {{ model_id }} [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/publisher/online_serving/model_invocation_count\" resource.type=\"aiplatform.googleapis.com/PublisherModel\" resource.label.\"model_user_id\"=\"{{ model_id }}\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 48,
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Vertex AI Model Garden Publisher Model - Model invocation latencies (filtered...",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "HEATMAP",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_DELTA"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/publisher/online_serving/model_invocation_latencies\" resource.type=\"aiplatform.googleapis.com/PublisherModel\" resource.label.\"model_user_id\"=\"{{ model_id }}\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 64,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Token count for {{ model_id }} [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "STACKED_BAR",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/publisher/online_serving/token_count\" resource.type=\"aiplatform.googleapis.com/PublisherModel\" resource.label.\"model_user_id\"=\"{{ model_id }}\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 64,
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Vertex AI Model Garden Publisher Model - Token Throughput [SUM]",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [],
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"aiplatform.googleapis.com/publisher/online_serving/consumed_token_throughput\" resource.type=\"aiplatform.googleapis.com/PublisherModel\""
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 80,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Span duration (heatmap)",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "",
+                "measures": [],
+                "plotType": "HEATMAP",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "traceQuery": {
+                    "resourceContainer": "projects/{{ project_id }}/locations/global/traceScopes/_Default",
+                    "spanDataValue": "SPAN_DURATION",
+                    "spanFilters": {
+                      "apphubServices": [],
+                      "apphubWorkloads": [],
+                      "applicationIds": [],
+                      "attributes": [],
+                      "displayNames": [],
+                      "isRootSpan": false,
+                      "kinds": [],
+                      "services": [
+                        "{{ reasoning_engine_id }}"
+                      ],
+                      "status": []
+                    }
+                  },
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 80,
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "User Responses",
+          "id": "",
+          "timeSeriesTable": {
+            "columnSettings": [],
+            "dataSets": [
+              {
+                "tableTemplate": "",
+                "timeSeriesQuery": {
+                  "opsAnalyticsQuery": {
+                    "savedQueryId": "",
+                    "sql": "SELECT timestamp AS Submission_Time, resource.labels.reasoning_engine_id AS Reasoning_Agent_ID, COALESCE(JSON_VALUE(labels, '$.\"user.id\"'), JSON_VALUE(labels, '$.\"enduser.id\"'), 'N/A') AS User_ID, JSON_VALUE(json_payload.content.role) AS Message_Role, JSON_VALUE(json_payload.content.parts[0].text) AS Text_Content, JSON_VALUE(labels, '$.\"gen_ai.conversation.id\"') AS Session_ID, REGEXP_EXTRACT(trace, r'([^/]+)$') AS Trace_ID FROM `{{ project_id }}.global._Default._AllLogs` WHERE (JSON_VALUE(labels, '$.\"event.name\"') = 'gen_ai.user.message' OR JSON_VALUE(labels, '$.\"event.name\"') = 'gen_ai.choice' OR JSON_VALUE(labels, '$.\"event.name\"') = 'gen_ai.client.inference.operation.details') ORDER BY Submission_Time DESC LIMIT 100;"
+                  },
+                  "outputFullDuration": false,
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "displayColumnType": false,
+            "metricVisualization": "NUMBER"
+          }
+        }
+      }
+    ]
+  }
+}

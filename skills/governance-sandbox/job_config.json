@@ -1,0 +1,8 @@
+{
+  "labels": {
+    "agent-id": "ace-agent",
+    "business-unit": "finance",
+    "environment": "staging",
+    "cost-centre": "cc-finance"
+  }
+}

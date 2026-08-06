@@ -33,10 +33,23 @@ def scan_terraform(apply_mode, config_values=None):
         return
 
     target_resources = [
-        "google_cloud_run_v2_service", 
-        "google_storage_bucket", 
-        "google_bigquery_dataset", 
-        "google_vertex_ai_endpoint"
+        "google_compute_instance",
+        "google_container_cluster",
+        "google_sql_database_instance",
+        "google_storage_bucket",
+        "google_bigquery_dataset",
+        "google_pubsub_topic",
+        "google_cloudfunctions_function",
+        "google_cloudfunctions2_function",
+        "google_cloud_run_service",
+        "google_cloud_run_v2_service",
+        "google_redis_instance",
+        "google_spanner_instance",
+        "google_artifact_registry_repository",
+        "google_vertex_ai_endpoint",
+        "google_notebooks_instance",
+        "google_workflows_workflow",
+        "google_secret_manager_secret"
     ]
 
     for filepath in tf_files:
